@@ -39,7 +39,7 @@ SHELL = /bin/sh
 
 
 CXX = clang++
-CXXFLAGS = $(BX_INCDIRS) -v -O3 -Wall -mno-ms-bitfields -Wno-format -Wno-overloaded-virtual -Wl,-Bstatic -lstdc++ -lgcc -lgcc_eh -lgcc_s -lpthread -static-libgcc -DWIN32 -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES   
+CXXFLAGS = $(BX_INCDIRS) -v -O3 -Wall -static -s -mno-ms-bitfields -Wno-format -Wno-ignored-attributes -Wno-overloaded-virtual -fno-rtti -std=c++11 -DWIN32 -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES   
 LOCAL_CXXFLAGS = 
 LDFLAGS = 
 LIBS = 
@@ -66,7 +66,7 @@ GUI_OBJS_AMIGAOS = amigaos.o
 GUI_OBJS_WX = wx.o
 GUI_OBJS_WX_SUPPORT = wxmain.o wxdialog.o
 
-GUI_DLL_TARGETS =  bx_rfb.dll bx_win32.dll bx_nogui.dll
+GUI_DLL_TARGETS =  bx_win32.dll bx_nogui.dll
 OBJS_THAT_CANNOT_BE_PLUGINS = keymap.o gui.o siminterface.o paramtree.o textconfig.o  win32dialog.o win32paramdlg.o scrollwin.o
 OBJS_THAT_CAN_BE_PLUGINS = 
 
@@ -76,8 +76,8 @@ GUI_LINK_OPTS_X = $(X_LIBS) $(X_PRE_LIBS)
 GUI_LINK_OPTS_SDL = 
 GUI_LINK_OPTS_SDL2 = 
 GUI_LINK_OPTS_SVGA =  -lvga -lvgagl
-GUI_LINK_OPTS_RFB =  -lws2_32 
-GUI_LINK_OPTS_RFB_VCPP = user32.lib  -lws2_32 
+GUI_LINK_OPTS_RFB = 
+GUI_LINK_OPTS_RFB_VCPP = user32.lib 
 GUI_LINK_OPTS_VNCSRV = 
 GUI_LINK_OPTS_AMIGAOS =
 GUI_LINK_OPTS_WIN32 = -luser32 -lgdi32 -lcomdlg32 -lcomctl32
@@ -87,9 +87,9 @@ GUI_LINK_OPTS_CARBON = -framework Carbon
 GUI_LINK_OPTS_NOGUI =
 GUI_LINK_OPTS_TERM = 
 GUI_LINK_OPTS_WX = 
-GUI_LINK_OPTS =  $(GUI_LINK_OPTS_RFB) $(GUI_LINK_OPTS_WIN32)   -liphlpapi -lws2_32 -lwinmm 
+GUI_LINK_OPTS =  $(GUI_LINK_OPTS_WIN32)   -liphlpapi -lws2_32 -lwinmm 
 
-NONPLUGIN_OBJS = $(OBJS_THAT_CANNOT_BE_PLUGINS) $(OBJS_THAT_CAN_BE_PLUGINS) $(OBJS_THAT_SUPPORT_OTHER_PLUGINS)  $(GUI_OBJS_RFB) $(GUI_OBJS_WIN32) $(GUI_OBJS_NOGUI) 
+NONPLUGIN_OBJS = $(OBJS_THAT_CANNOT_BE_PLUGINS) $(OBJS_THAT_CAN_BE_PLUGINS) $(OBJS_THAT_SUPPORT_OTHER_PLUGINS)  $(GUI_OBJS_WIN32) $(GUI_OBJS_NOGUI) 
 PLUGIN_OBJS = 
 
 #

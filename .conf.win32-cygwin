@@ -6,9 +6,10 @@
 
 CC="clang"
 CXX="clang++"
-#CFLAGS="-O3 -Wall -Wno-format -mno-cygwin" # for GCC versions < 4.7
-CFLAGS="-v -O3 -Wall -mno-ms-bitfields -Wno-format -Wno-overloaded-virtual -Wl,-Bstatic -lstdc++ -lgcc -lgcc_eh -lgcc_s -lpthread -static-libgcc"
-CXXFLAGS="$CFLAGS"
+
+# Make sure everything is statically linked!
+CFLAGS="-v -O3 -Wall -static -s -mno-ms-bitfields -Wno-format -Wno-ignored-attributes -Wno-overloaded-virtual -fno-rtti"
+CXXFLAGS="$CFLAGS -std=c++11"
 
 export CC
 export CXX
@@ -19,9 +20,8 @@ export CXXFLAGS
             --enable-ne2000 \
             --enable-all-optimizations \
             --enable-cpu-level=6 \
-	    --enable-a20-pin \
-	    --enable-avx \
-	    --enable-smp \
+            --enable-a20-pin \
+            --enable-gdb-stub \
             --enable-x86-64 \
             --enable-vmx=2 \
             --enable-pci \
@@ -35,6 +35,6 @@ export CXXFLAGS
             --enable-es1370 \
             --enable-e1000 \
             --enable-show-ips \
-            --with-win32 --with-rfb --with-nogui
+            --with-win32 --with-nogui
 
 

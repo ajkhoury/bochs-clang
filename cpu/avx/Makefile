@@ -28,9 +28,9 @@ SHELL = /bin/sh
 
 
 CC       = clang
-CFLAGS   = -v -O3 -Wall -mno-ms-bitfields -Wno-format -Wno-overloaded-virtual -Wl,-Bstatic -lstdc++ -lgcc -lgcc_eh -lgcc_s -lpthread -static-libgcc -DWIN32 -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES  
+CFLAGS   = -v -O3 -Wall -static -s -mno-ms-bitfields -Wno-format -Wno-ignored-attributes -Wno-overloaded-virtual -fno-rtti -DWIN32 -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES  
 CXX      = clang++
-CXXFLAGS = -v -O3 -Wall -mno-ms-bitfields -Wno-format -Wno-overloaded-virtual -Wl,-Bstatic -lstdc++ -lgcc -lgcc_eh -lgcc_s -lpthread -static-libgcc -DWIN32 -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES  
+CXXFLAGS = -v -O3 -Wall -static -s -mno-ms-bitfields -Wno-format -Wno-ignored-attributes -Wno-overloaded-virtual -fno-rtti -std=c++11 -DWIN32 -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES  
 
 #CFLAGS  = -Wall -Wstrict-prototypes -fomit-frame-pointer -fno-strict-aliasing -pipe -fno-strength-reduce -mpreferred-stack-boundary=2 -DCPU=686 -march=i686
 

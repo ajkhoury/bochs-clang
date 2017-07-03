@@ -96,8 +96,8 @@ BOCHSAPI extern class bx_gui_c *bx_gui;
 // all guis.  Each gui implementation will override the abstract methods.
 class BOCHSAPI bx_gui_c : public logfunctions {
 public:
-  bx_gui_c (void);
-  virtual ~bx_gui_c ();
+  bx_gui_c(void);
+  virtual ~bx_gui_c();
   // Define the following functions in the module for your particular GUI
   // (x.cc, win32.cc, ...)
   virtual void specific_init(int argc, char **argv, unsigned header_bar_y) = 0;
@@ -116,15 +116,15 @@ public:
   virtual void show_headerbar(void) = 0;
   virtual int get_clipboard_text(Bit8u **bytes, Bit32s *nbytes)  = 0;
   virtual int set_clipboard_text(char *snapshot, Bit32u len) = 0;
-  virtual void mouse_enabled_changed_specific (bx_bool val) = 0;
+  virtual void mouse_enabled_changed_specific(bx_bool val) = 0;
   virtual void exit(void) = 0;
   // new graphics API methods (compatibility mode in gui.cc)
-  virtual bx_svga_tileinfo_t *graphics_tile_info(bx_svga_tileinfo_t *info);
-  virtual Bit8u *graphics_tile_get(unsigned x, unsigned y, unsigned *w, unsigned *h);
+  virtual bx_svga_tileinfo_t* graphics_tile_info(bx_svga_tileinfo_t *info);
+  virtual Bit8u* graphics_tile_get(unsigned x, unsigned y, unsigned *w, unsigned *h);
   virtual void graphics_tile_update_in_place(unsigned x, unsigned y, unsigned w, unsigned h);
   // optional gui methods (stubs or default code in gui.cc)
-  virtual void statusbar_setitem_specific(int element, bx_bool active, bx_bool w) {}
-  virtual void set_tooltip(unsigned hbar_id, const char *tip) {}
+  virtual void statusbar_setitem_specific(int element, bx_bool active, bx_bool w) { }
+  virtual void set_tooltip(unsigned hbar_id, const char *tip) { }
   // set_display_mode() changes the mode between the configuration interface
   // and the simulation.  This is primarily intended for display libraries
   // which have a full-screen mode such as SDL, term, and svgalib.  The display
@@ -132,13 +132,13 @@ public:
   // for panics that requires user input, when entering the debugger, etc.  It
   // is set to DISP_MODE_SIM when the Bochs simulation resumes.  The
   // enum is defined in gui/siminterface.h.
-  virtual void set_display_mode (disp_mode_t newmode) { /* default=no action*/ }
+  virtual void set_display_mode(disp_mode_t newmode) { /* default=no action*/ }
   // These are only needed for the term gui. For all other guis they will
   // have no effect.
   // returns 32-bit bitmask in which 1 means the GUI should handle that signal
-  virtual Bit32u get_sighandler_mask () {return 0;}
+  virtual Bit32u get_sighandler_mask() {return 0;}
   // called when registered signal arrives
-  virtual void sighandler (int sig) {}
+  virtual void sighandler(int sig) {}
 #if BX_USE_IDLE_HACK
   // this is called from the CPU model when the HLT instruction is executed.
   virtual void sim_is_idle(void) {}
@@ -354,16 +354,14 @@ virtual void replace_bitmap(unsigned hbar_id, unsigned bmap_id);            \
 virtual void show_headerbar(void);                                          \
 virtual int get_clipboard_text(Bit8u **bytes, Bit32s *nbytes);              \
 virtual int set_clipboard_text(char *snapshot, Bit32u len);                 \
-virtual void mouse_enabled_changed_specific (bx_bool val);                  \
+virtual void mouse_enabled_changed_specific(bx_bool val);                   \
 virtual void exit(void);                                                    \
 /* end of DECLARE_GUI_VIRTUAL_METHODS */
 
-#define DECLARE_GUI_NEW_VIRTUAL_METHODS()                                   \
-virtual bx_svga_tileinfo_t *graphics_tile_info(bx_svga_tileinfo_t *info);   \
-virtual Bit8u *graphics_tile_get(unsigned x, unsigned y,                    \
-                             unsigned *w, unsigned *h);                     \
-virtual void graphics_tile_update_in_place(unsigned x, unsigned y,          \
-                                       unsigned w, unsigned h);
+#define DECLARE_GUI_NEW_VIRTUAL_METHODS()                                                   \
+virtual bx_svga_tileinfo_t* graphics_tile_info(bx_svga_tileinfo_t *info);                   \
+virtual Bit8u* graphics_tile_get(unsigned x, unsigned y, unsigned *w, unsigned *h);         \
+virtual void graphics_tile_update_in_place(unsigned x, unsigned y, unsigned w, unsigned h);
 /* end of DECLARE_GUI_NEW_VIRTUAL_METHODS */
 
 #define BX_KEY_PRESSED  0x00000000

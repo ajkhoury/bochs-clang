@@ -24577,7 +24577,6 @@ fi
 fi
 
 
-
 if test "$with_sdl" = yes; then
   display_libs="$display_libs sdl"
   GUI_DLL_TARGETS="$GUI_DLL_TARGETS bx_sdl.dll"

@@ -161,7 +161,7 @@
 // members of the C++ CPU class to be static.
 // This defaults to 1 since it should improve performance, but when
 // SMP mode is enabled, it will be turned off by configure.
-#define BX_USE_CPU_SMF 0
+#define BX_USE_CPU_SMF 1
 
 #define BX_USE_MEM_SMF 1
 
@@ -285,7 +285,7 @@
 #define BX_WITH_CARBON 0
 #define BX_WITH_NOGUI 1
 #define BX_WITH_TERM 0
-#define BX_WITH_RFB 1
+#define BX_WITH_RFB 0
 #define BX_WITH_VNCSRV 0
 #define BX_WITH_AMIGAOS 0
 #define BX_WITH_SDL 0
@@ -299,7 +299,7 @@
 
 // BX_USE_GUI should be set to 1 for all guis with VGA console support
 // for 'textconfig'.
-#define BX_USE_GUI_CONSOLE 1
+#define BX_USE_GUI_CONSOLE 0
 
 // BX_USE_WIN32CONFIG should be set to 1 on WIN32 for the guis
 // "win32", "sdl" and "sdl2" only.
@@ -310,7 +310,7 @@
 #endif
 
 // set to 1 if wxMSW is a unicode version
-#define WX_MSW_UNICODE 0
+#define WX_MSW_UNICODE 1
 
 // A certain functions must NOT be fastcall even if compiled with fastcall
 // option, and those are callbacks from Windows which are defined either 
@@ -638,7 +638,7 @@ typedef
 
 #endif
 
-#define BX_GDBSTUB 0
+#define BX_GDBSTUB 1
 #define BX_DEBUGGER 0
 #define BX_DISASM 1
 #define BX_DEBUGGER_GUI 0
@@ -667,7 +667,7 @@ typedef
 #define BX_SUPPORT_MEMTYPE 0
 #define BX_SUPPORT_SVM 0
 #define BX_SUPPORT_VMX 2
-#define BX_SUPPORT_AVX 1
+#define BX_SUPPORT_AVX 0
 #define BX_SUPPORT_EVEX 0
 
 #if BX_SUPPORT_SVM && BX_SUPPORT_X86_64 == 0
@@ -687,7 +687,7 @@ typedef
 #endif
 
 #define BX_SUPPORT_REPEAT_SPEEDUPS 1
-#define BX_SUPPORT_HANDLERS_CHAINING_SPEEDUPS 1
+#define BX_SUPPORT_HANDLERS_CHAINING_SPEEDUPS 0
 #define BX_ENABLE_TRACE_LINKING 1
 
 #if (BX_DEBUGGER || BX_GDBSTUB) && BX_SUPPORT_HANDLERS_CHAINING_SPEEDUPS
@@ -739,7 +739,7 @@ typedef
 //  * processors=2, bootstrap=0, ioapic_id=2
 //  * processors=4, bootstrap=0, ioapic_id=4
 //  * processors=8, bootstrap=0, ioapic_id=8
-#define BX_SUPPORT_SMP 1
+#define BX_SUPPORT_SMP 0
 #define BX_BOOTSTRAP_PROCESSOR 0
 
 // For P6 and Pentium family processors the local APIC ID feild is 4 bits

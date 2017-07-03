@@ -85,8 +85,8 @@ SHELL = /bin/sh
 
 CC = clang
 CXX = clang++
-CFLAGS = -v -O3 -Wall -mno-ms-bitfields -Wno-format -Wno-overloaded-virtual -Wl,-Bstatic -lstdc++ -lgcc -lgcc_eh -lgcc_s -lpthread -static-libgcc -DWIN32 -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES   $(MCH_CFLAGS) $(FLA_FLAGS)  -DBX_SHARE_PATH='"$(sharedir)"'
-CXXFLAGS = -v -O3 -Wall -mno-ms-bitfields -Wno-format -Wno-overloaded-virtual -Wl,-Bstatic -lstdc++ -lgcc -lgcc_eh -lgcc_s -lpthread -static-libgcc -DWIN32 -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES   $(MCH_CFLAGS) $(FLA_FLAGS)  -DBX_SHARE_PATH='"$(sharedir)"'
+CFLAGS = -v -O3 -Wall -static -s -mno-ms-bitfields -Wno-format -Wno-ignored-attributes -Wno-overloaded-virtual -fno-rtti -DWIN32 -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES   $(MCH_CFLAGS) $(FLA_FLAGS)  -DBX_SHARE_PATH='"$(sharedir)"'
+CXXFLAGS = -v -O3 -Wall -static -s -mno-ms-bitfields -Wno-format -Wno-ignored-attributes -Wno-overloaded-virtual -fno-rtti -std=c++11 -DWIN32 -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES   $(MCH_CFLAGS) $(FLA_FLAGS)  -DBX_SHARE_PATH='"$(sharedir)"'
 
 LDFLAGS = 
 LIBS = 
@@ -99,7 +99,7 @@ GUI_LINK_OPTS_X = $(X_LIBS) $(X_PRE_LIBS)
 GUI_LINK_OPTS_SDL = 
 GUI_LINK_OPTS_SDL2 = 
 GUI_LINK_OPTS_SVGA =  -lvga -lvgagl
-GUI_LINK_OPTS_RFB =  -lws2_32 
+GUI_LINK_OPTS_RFB = 
 GUI_LINK_OPTS_VNCSRV = 
 GUI_LINK_OPTS_AMIGAOS =
 GUI_LINK_OPTS_WIN32 = -luser32 -lgdi32 -lcomdlg32 -lcomctl32 -lshell32
@@ -110,12 +110,12 @@ GUI_LINK_OPTS_CARBON = -framework Carbon
 GUI_LINK_OPTS_NOGUI =
 GUI_LINK_OPTS_TERM = 
 GUI_LINK_OPTS_WX = 
-GUI_LINK_OPTS =  $(GUI_LINK_OPTS_RFB) $(GUI_LINK_OPTS_WIN32)
+GUI_LINK_OPTS =  $(GUI_LINK_OPTS_WIN32)
 DEVICE_LINK_OPTS =  -liphlpapi -lws2_32 -lwinmm 
 RANLIB = echo
 
-CFLAGS_CONSOLE = -v -O3 -Wall -mno-ms-bitfields -Wno-format -Wno-overloaded-virtual -Wl,-Bstatic -lstdc++ -lgcc -lgcc_eh -lgcc_s -lpthread -static-libgcc -DWIN32 -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES  $(MCH_CFLAGS) $(FLA_FLAGS)
-CXXFLAGS_CONSOLE = -v -O3 -Wall -mno-ms-bitfields -Wno-format -Wno-overloaded-virtual -Wl,-Bstatic -lstdc++ -lgcc -lgcc_eh -lgcc_s -lpthread -static-libgcc -DWIN32 -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES $(MCH_CFLAGS) $(FLA_FLAGS)
+CFLAGS_CONSOLE = -v -O3 -Wall -static -s -mno-ms-bitfields -Wno-format -Wno-ignored-attributes -Wno-overloaded-virtual -fno-rtti -DWIN32 -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES  $(MCH_CFLAGS) $(FLA_FLAGS)
+CXXFLAGS_CONSOLE = -v -O3 -Wall -static -s -mno-ms-bitfields -Wno-format -Wno-ignored-attributes -Wno-overloaded-virtual -fno-rtti -std=c++11 -DWIN32 -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES $(MCH_CFLAGS) $(FLA_FLAGS)
 BXIMAGE_LINK_OPTS = 
 
 BX_INCDIRS = -I. -I$(srcdir)/. -Iinstrument/stubs -I$(srcdir)/instrument/stubs
@@ -177,15 +177,15 @@ all: bochs  bximage  bxhub
 
 
 bochs: iodev/libiodev.a iodev/display/libdisplay.a iodev/hdimage/libhdimage.a iodev/usb/libusb.a iodev/network/libnetwork.a iodev/sound/libsound.a \
-		 cpu/libcpu.a $(AVX_LIB) cpu/cpudb/libcpudb.a memory/libmemory.a \
+		 cpu/libcpu.a  cpu/cpudb/libcpudb.a memory/libmemory.a \
 		gui/libgui.a $(DISASM_LIB)  $(BX_OBJS) \
-		$(SIMX86_OBJS) $(FPU_LIB)  
+		$(SIMX86_OBJS) $(FPU_LIB) $(GDBSTUB_OBJS) 
 	$(CXX) -o $@ $(CXXFLAGS) $(LDFLAGS)  $(BX_OBJS) $(SIMX86_OBJS) \
 		iodev/libiodev.a iodev/display/libdisplay.a iodev/hdimage/libhdimage.a iodev/usb/libusb.a iodev/network/libnetwork.a iodev/sound/libsound.a \
-		 cpu/libcpu.a $(AVX_LIB) cpu/cpudb/libcpudb.a \
+		 cpu/libcpu.a  cpu/cpudb/libcpudb.a \
 		 memory/libmemory.a gui/libgui.a \
 		$(DISASM_LIB)   \
-		 $(FPU_LIB) \
+		$(GDBSTUB_OBJS) $(FPU_LIB) \
 		$(GUI_LINK_OPTS) \
 		$(DEVICE_LINK_OPTS) \
 		$(MCH_LINK_FLAGS) \
@@ -198,23 +198,23 @@ bochs: iodev/libiodev.a iodev/display/libdisplay.a iodev/hdimage/libhdimage.a io
 # libtool.  This creates a .DEF file, and exports file, an import library,
 # and then links bochs.exe with the exports file.
 .win32_dll_plugin_target: iodev/libiodev.a iodev/display/libdisplay.a iodev/hdimage/libhdimage.a iodev/usb/libusb.a iodev/network/libnetwork.a \
-		iodev/sound/libsound.a  cpu/libcpu.a $(AVX_LIB) cpu/cpudb/libcpudb.a \
+		iodev/sound/libsound.a  cpu/libcpu.a  cpu/cpudb/libcpudb.a \
 		memory/libmemory.a gui/libgui.a $(DISASM_LIB)  \
-		$(BX_OBJS) $(SIMX86_OBJS) $(FPU_LIB)  
+		$(BX_OBJS) $(SIMX86_OBJS) $(FPU_LIB) $(GDBSTUB_OBJS) 
 	$(DLLTOOL) --export-all-symbols --output-def bochs.def \
 		$(BX_OBJS) $(SIMX86_OBJS) \
 		iodev/libiodev.a iodev/display/libdisplay.a iodev/hdimage/libhdimage.a iodev/usb/libusb.a iodev/network/libnetwork.a iodev/sound/libsound.a \
-		cpu/libcpu.a $(AVX_LIB) cpu/cpudb/libcpudb.a memory/libmemory.a gui/libgui.a \
+		cpu/libcpu.a  cpu/cpudb/libcpudb.a memory/libmemory.a gui/libgui.a \
 		 $(DISASM_LIB)   \
-		 $(FPU_LIB)
+		$(GDBSTUB_OBJS) $(FPU_LIB)
 	$(DLLTOOL) --dllname bochs.exe --def bochs.def --output-lib dllexports.a
 	$(DLLTOOL) --dllname bochs.exe --output-exp bochs.exp --def bochs.def
 	$(CXX) -o bochs.exe $(CXXFLAGS) $(LDFLAGS) \
 	    $(BX_OBJS) bochs.exp $(SIMX86_OBJS) \
 		iodev/libiodev.a iodev/display/libdisplay.a iodev/hdimage/libhdimage.a iodev/usb/libusb.a iodev/network/libnetwork.a iodev/sound/libsound.a \
-		cpu/libcpu.a $(AVX_LIB) cpu/cpudb/libcpudb.a memory/libmemory.a gui/libgui.a \
+		cpu/libcpu.a  cpu/cpudb/libcpudb.a memory/libmemory.a gui/libgui.a \
 		 $(DISASM_LIB)   \
-		 $(FPU_LIB) \
+		$(GDBSTUB_OBJS) $(FPU_LIB) \
 		$(GUI_LINK_OPTS) \
 		$(DEVICE_LINK_OPTS) \
 		$(MCH_LINK_FLAGS) \
@@ -378,7 +378,7 @@ libbochs.a:
 
 # for wxWidgets port, on win32 platform
 wxbochs_resources.o: wxbochs.rc
-	windres $(srcdir)/wxbochs.rc -o $@ --include-dir=`not_found --prefix`/include
+	windres $(srcdir)/wxbochs.rc -o $@ --include-dir=`wx-config --prefix`/include/wx-3.0
 
 # for win32 gui
 win32res.o: win32res.rc bxversion.rc
