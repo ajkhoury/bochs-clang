@@ -1,0 +1,13 @@
+
+# Ignore compiled libs
+*.a
+
+# Ignore compiled objects
+*.o
+
+# Ignore compiled executables
+bochs
+bochs.exe
+
+
+
