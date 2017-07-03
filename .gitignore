@@ -1,4 +1,3 @@
-
 # Ignore compiled libs
 *.a
 
@@ -8,6 +7,12 @@
 # Ignore compiled executables
 bochs
 bochs.exe
+bochs-gdb.exe
+bxhub
+bxhub.exe
+bximage
+bximage.exe
+
 
 
 
